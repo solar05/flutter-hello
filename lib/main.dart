@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
     );
-  } 
+  }
 }
 
 class RandomWords extends StatefulWidget {
@@ -39,21 +39,38 @@ class _RandomWordsState extends State<RandomWords> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-    padding: const EdgeInsets.all(16.0),
-    itemBuilder: /*1*/ (context, i) {
-      if (i.isOdd) return const Divider(); /*2*/
+      padding: const EdgeInsets.all(16.0),
+      itemBuilder: /*1*/ (context, i) {
+        if (i.isOdd) return const Divider(); /*2*/
 
-      final index = i ~/ 2; /*3*/
-      if (index >= _suggestions.length) {
-        _suggestions.addAll(generateWordPairs().take(10)); /*4*/
-      }
-      return ListTile(
-        title: Text(
-          _suggestions[index].asPascalCase,
-          style: _biggerFont,
-        ),
-      );
-    },
-  );
+        final index = i ~/ 2; /*3*/
+
+        if (index >= _suggestions.length) {
+          _suggestions.addAll(generateWordPairs().take(10)); /*4*/
+        }
+
+        final alreadySaved = _saved.contains(_suggestions[index]);
+        return ListTile(
+          title: Text(
+            _suggestions[index].asPascalCase,
+            style: _biggerFont,
+          ),
+          trailing: Icon(
+            alreadySaved ? Icons.favorite : Icons.favorite_border,
+            color: alreadySaved ? Colors.red : null,
+            semanticLabel: alreadySaved ? 'Remove from saved' : 'Save',
+          ),
+          onTap: () {
+            setState(() {
+              if (alreadySaved) {
+                _saved.remove(_suggestions[index]);
+              } else {
+                _saved.add(_suggestions[index]);
+              }
+            });
+          },
+        );
+      },
+    );
   }
 }
