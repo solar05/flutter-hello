@@ -10,8 +10,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-        title: 'Startup name generator', home: RandomWords());
+    return MaterialApp(
+        title: 'Startup name generator',
+        theme: ThemeData(
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Colors.blue,
+            foregroundColor: Colors.white,
+          ),
+        ), 
+        home: const RandomWords());
   }
 }
 
@@ -36,7 +43,7 @@ class _RandomWordsState extends State<RandomWords> {
               return ListTile(
                 title: Text(
                   pair.asPascalCase,
-                  style: _biggerFont,
+                  style: _biggerFont
                 ),
               );
             },
@@ -50,7 +57,7 @@ class _RandomWordsState extends State<RandomWords> {
 
           return Scaffold(
             appBar: AppBar(
-              title: const Text('Saved Suggestions'),
+              title: const Text('Saved names'),
             ),
             body: ListView(children: divided),
           );
@@ -62,7 +69,6 @@ class _RandomWordsState extends State<RandomWords> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // NEW from here ...
       appBar: AppBar(
         title: const Text('Startup Name Generator'),
         actions: [
